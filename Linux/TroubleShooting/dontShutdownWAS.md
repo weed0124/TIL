@@ -16,21 +16,22 @@
 > 2) startup 할 때 해당 프로세스 id를 남기고  그 pid값을 가지고 shutdown시키면 매번 pid값을 찾아서 강제종료 시키지 않아도 됨
 
 ### 4. 해결방법
-- 3-2의 방법을 적용
+> 3-2의 방법을 적용
 
-- TOMCAT_HOME/bin/startup.sh 수정
+> 1. TOMCAT_HOME/bin/startup.sh 수정
 
-- exec "$PRGDIR"/"$EXECUTABLE" start "$@"  줄  바로 위
+> 1-1. exec "$PRGDIR"/"$EXECUTABLE" start "$@"  줄  바로 위
 export CATALINA_PID=/home/server/tomcat/bin/catalina.pid 추가
 
-- 위 옵션값을 추가하고 startup.sh을 실행 시 CATALINA_PID가 적용되어 해당 경로에 catalina.pid 파일이 저장되었다고 나옴
+> 1-2. 위 옵션값을 추가하고 startup.sh을 실행 시 CATALINA_PID가 적용되어 해당 경로에 catalina.pid 파일이 저장되었다고 나옴
 
-- TOMCAT_HOME/bin/shutdown.sh 수정
 
-- exec "$PRGDIR"/"$EXECUTABLE" stop "$@" 줄 바로 위
+> 2. TOMCAT_HOME/bin/shutdown.sh 수정
+
+> 2-1. exec "$PRGDIR"/"$EXECUTABLE" stop "$@" 줄 바로 위
 export CATALINA_PID=/home/server/tomcat/bin/catalina.pid 추가
 
-- exec "$PRGDIR"/"$EXECUTABLE" stop "$@" -> exec "$PRGDIR"/"$EXECUTABLE" stop -force "$@"로 변경
+> 2-2. exec "$PRGDIR"/"$EXECUTABLE" stop "$@" -> exec "$PRGDIR"/"$EXECUTABLE" stop -force "$@"로 변경
 
 ### 5.평가
 - shutdown시에 남아있던 프로세스가 잘 종료되어 사용중인 메모리 영역도 평균 최대 용량의 30%수준에 머무름 
